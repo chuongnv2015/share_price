@@ -25,7 +25,7 @@ jobs:
           pip install requests beautifulsoup4
 
       - name: Run scraper script
-        run: python crawl_gold.py
+        run: python crawl_stock.py
 
       - name: Commit and push if changed
         run: |

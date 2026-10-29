@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 def crawl_stock_prices():
     # Danh sách các mã cổ phiếu bạn muốn theo dõi (Ví dụ: VCB, FPT, HPG, PVI...)
-    symbols = ["VCB", "FPT", "HPG", "PVI"]
+    symbols = ["VCB", "FPT", "HPG", "PVI", "REE", "QTB"]
     
     data = {
         "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
