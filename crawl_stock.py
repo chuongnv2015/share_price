@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+import time
 import requests
 
 def crawl_stock_prices():
@@ -10,28 +11,32 @@ def crawl_stock_prices():
         "stocks": {}
     }
 
-    # Sử dụng API lấy giá trực tiếp của FireAnt
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Referer": "https://fireant.vn/"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://iboard.ssi.com.vn/"
     }
+
+    # Tạo mốc thời gian Unix timestamp cho 30 ngày qua đến hiện tại
+    now = int(time.time())
+    past = now - (30 * 24 * 60 * 60)
 
     for symbol in symbols:
         try:
-            # API lấy quote giá cơ bản của FireAnt
-            url = f"https://restapi.fireant.vn/symbols/quote/{symbol}"
+            # Gọi API chuẩn của SSI iBoard kèm theo dải thời gian
+            url = f"https://iboard.ssi.com.vn/dchart/api/history?resolution=1D&symbol={symbol}&from={past}&to={now}"
             response = requests.get(url, headers=headers, timeout=10)
             
             if response.status_code == 200:
-                item = response.json()
-                if item and "lastPrice" in item:
-                    current_price = item.get("lastPrice", 0) * 1000 # FireAnt tính theo nghìn đồng
-                    change = item.get("priceChange", 0) * 1000
-                    change_percent = item.get("percentChange", 0)
+                res_data = response.json()
+                if "c" in res_data and len(res_data["c"]) > 0:
+                    current_price = res_data["c"][-1] # Giá phiên gần nhất (tính bằng nghìn đồng)
+                    prev_close = res_data["c"][-2] if len(res_data["c"]) > 1 else current_price
+                    change = round(current_price - prev_close, 2)
+                    change_percent = round((change / prev_close) * 100, 2) if prev_close else 0
                     
                     data["stocks"][symbol] = {
-                        "price": current_price,
-                        "change": change,
+                        "price": current_price * 1000, # Quy đổi ra VNĐ (ví dụ: 65.5 -> 65500)
+                        "change": change * 1000,
                         "change_percent": change_percent
                     }
                     continue
