@@ -1,4 +1,35 @@
 {
-    "updated_at": "2026-10-29 04:05:53",
-    "stocks": {}
+    "updated_at": "2026-10-29 04:12:53",
+    "stocks": {
+        "PVI": {
+            "price": "N/A",
+            "change": 0,
+            "change_percent": 0
+        },
+        "FPT": {
+            "price": "N/A",
+            "change": 0,
+            "change_percent": 0
+        },
+        "VCB": {
+            "price": "N/A",
+            "change": 0,
+            "change_percent": 0
+        },
+        "HPG": {
+            "price": "N/A",
+            "change": 0,
+            "change_percent": 0
+        },
+        "REE": {
+            "price": "N/A",
+            "change": 0,
+            "change_percent": 0
+        },
+        "QTP": {
+            "price": "N/A",
+            "change": 0,
+            "change_percent": 0
+        }
+    }
 }
