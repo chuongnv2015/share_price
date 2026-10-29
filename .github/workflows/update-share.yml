@@ -1,4 +1,4 @@
-name: Auto Update Gold Prices
+name: Auto Update Share Prices
 
 on:
   schedule:
